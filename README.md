@@ -2,7 +2,7 @@
 
 > A full-stack NBA game prediction app using real-time data, injury reports, and machine learning.
 
-CourtVision is an expansion of my original [NBA prediction model](https://github.com/al3jandroR/nba-predictions), which was developed as a class project in Google Colab using team statistics and classification models. This app takes that foundation and evolves it into a production-style web application.
+CourtVision is an expansion of my original [NBA prediction model](https://github.com/al3jandroR/nba_predictions), which was developed as a class project in Google Colab using team statistics and classification models. This app takes that foundation and evolves it into a production-style web application.
 
 ## 🔍 What It Does
 
@@ -34,7 +34,7 @@ CourtVision predicts the outcomes of NBA games using:
 ## 📎 Original Project
 
 The core machine learning work behind CourtVision was first developed in this repo:  
-👉 [nba-predictions](https://github.com/al3jandroR/nba-predictions)
+👉 [nba-predictions](https://github.com/al3jandroR/nba_predictions)
 
 ---
 
