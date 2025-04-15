@@ -4,7 +4,7 @@
 
 CourtVision is an expansion of my original [NBA prediction model](https://github.com/al3jandroR/nba_predictions), which was developed as a class project in Google Colab using team statistics and classification models. This app takes that foundation and evolves it into a production-style web application.
 
-## 🔍 What It Does
+## What It Does
 
 CourtVision predicts the outcomes of NBA games using:
 - Rolling team performance metrics
@@ -12,7 +12,7 @@ CourtVision predicts the outcomes of NBA games using:
 - Opponent-based matchup features
 - A trained machine learning model (Random Forest / Gradient Boosting)
 
-## ⚙️ Stack Overview
+## Stack Overview
 
 | Layer        | Tech                         |
 |--------------|------------------------------|
@@ -23,7 +23,7 @@ CourtVision predicts the outcomes of NBA games using:
 | Deployment   | Render (API) + Vercel (UI) *(coming soon)*
 
 
-## 🚧 In Progress
+## In Progress
 
 ✅ Backend API built with FastAPI  
 ✅ Model and injury logic migrated from notebook  
@@ -31,14 +31,14 @@ CourtVision predicts the outcomes of NBA games using:
 🛠 UI styling, loading UX, and error handling  
 📦 Render + Vercel deployment coming next
 
-## 📎 Original Project
+## Original Project
 
 The core machine learning work behind CourtVision was first developed in this repo:  
-👉 [nba-predictions](https://github.com/al3jandroR/nba_predictions)
+[nba-predictions](https://github.com/al3jandroR/nba_predictions)
 
 ---
 
-## 💡 Goal
+## Goal
 
 To build a clean, interactive, data-driven web app for basketball prediction — one that’s expandable to player-level modeling, performance visualization, and potential betting insights.
 
