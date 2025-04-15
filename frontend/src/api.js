@@ -2,7 +2,8 @@ const API_URL = 'https://courtvision.onrender.com';
 
 export async function fetchPredictions() {
     try {
-        const response = await fetch(`${API_URL}/predict?date=${date}');
+        const response = await fetch(`${API_URL}/predict?date=${date}`);
+
         if (!response.ok) throw new Error('Failed to fetch predictions');
         const data = await response.json();
 
