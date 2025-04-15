@@ -7,17 +7,17 @@ import os
 
 app = FastAPI()
 
-API_KEY = os.getenv("API_KEY")
-api_key_header = APIKeyHeader(name="x-api-key", auto_error=False)
-
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://court-vision-tau.vercel.app/"],
+    allow_origins=["https://court-vision-tau.vercel.app/", "http://localhost:5173"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+API_KEY = os.getenv("API_KEY")
+api_key_header = APIKeyHeader(name="x-api-key", auto_error=False)
+
 
 async def get_api_key(api_key: str = Depends(api_key_header)):
     if api_key == API_KEY:
