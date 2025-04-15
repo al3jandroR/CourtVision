@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime
 from pytz import timezone
 import pandas as pd
 from nba_api.stats.endpoints import scoreboardv2
@@ -8,17 +8,18 @@ from app.utils import (
     add_opponent_features, get_team_injuries
 )
 
-def run_colab_prediction_pipeline(model, features):
-    today = datetime.now(timezone('US/Eastern')).strftime('%Y-%m-%d')
-    tomorrow = (datetime.now(timezone('US/Eastern')) + timedelta(days=1)).strftime('%Y-%m-%d')
-    date = tomorrow
+def run_colab_prediction_pipeline(model, features, date_str=None):
+    if not date_str:
+        date_str = datetime.now(timezone('US/Eastern')).strftime('%Y-%m-%d')
+    else:
+        date = date_str
 
     print("Fetching games for:", date, "\n")
     scoreboard = safe_request(scoreboardv2.ScoreboardV2, game_date=date)
     games = scoreboard.get_data_frames()[0]
 
     if games.empty:
-        return {"message": "No games scheduled today."}
+        return {"message": f"No games found on {date}"}
 
     print("Loading injury report...")
     injury_df = get_injuries()
@@ -42,8 +43,8 @@ def run_colab_prediction_pipeline(model, features):
         away = get_team_abbr(away_id)
 
         try:
-            home_df = get_team_stats(home_id, season='2024-25').head(1).copy()
-            away_df = get_team_stats(away_id, season='2024-25').head(1).copy()
+            home_df = get_team_stats(home_id, season='2024-25', cutoff_date=date).head(1).copy()
+            away_df = get_team_stats(away_id, season='2024-25', cutoff_date=date).head(1).copy()
 
             home_df['OPP_ABBR'] = away
             away_df['OPP_ABBR'] = home
