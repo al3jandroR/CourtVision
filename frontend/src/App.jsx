@@ -15,8 +15,7 @@ export default function App() {
     setError(null);
   
     try {
-      const response = fetchPredictions(date);
-      const data = await response.json();
+      const data = await fetchPredictions(date);
   
       if (data.predictions) {
         setPredictions(data.predictions);
