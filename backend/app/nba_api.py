@@ -17,6 +17,9 @@ def run_colab_prediction_pipeline(model, features):
     scoreboard = safe_request(scoreboardv2.ScoreboardV2, game_date=date)
     games = scoreboard.get_data_frames()[0]
 
+    if games.empty:
+        return {"message": "No games scheduled today."}
+
     print("Loading injury report...")
     injury_df = get_injuries()
     roster_df = get_all_rosters()
