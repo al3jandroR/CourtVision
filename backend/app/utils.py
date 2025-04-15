@@ -49,7 +49,7 @@ def get_team_name(team_id):
     else:
         raise ValueError(f"No team found for ID: {team_id}")
 
-def get_team_stats(team_id, season, n=5):
+def get_team_stats(team_id, season, cutoff_date=None, n=5):
     log = safe_request(teamgamelog.TeamGameLog, team_id=team_id, season=season)
     df = log.get_data_frames()[0]
 
@@ -61,6 +61,12 @@ def get_team_stats(team_id, season, n=5):
     df['WIN'] = df['WL'].apply(lambda x: 1 if x == 'W' else 0)
     df['STREAK'] = df['WIN'].rolling(window=n).sum().shift(-1).fillna(0)
     df['OPP_ABBR'] = df['MATCHUP'].str.extract(r'@ (\w+)|vs\. (\w+)').bfill(axis=1).iloc[:, 0]
+    df['GAME_DATE'] = pd.to_datetime(df['GAME_DATE'], format='%b %d, %Y')
+
+    if cutoff_date:
+        df = df[df['GAME_DATE'] < pd.to_datetime(cutoff_date)]
+
+    df = df.sort_values('GAME_DATE', ascending=False).reset_index(drop=True)
 
     # avg stats from last 5 games
     rolling_features = ['PTS', 'OREB', 'DREB', 'FG_PCT', 'AST', 'TOV', 'STL', 'BLK']
@@ -69,7 +75,6 @@ def get_team_stats(team_id, season, n=5):
 
     df['DEFENSE_SCORE'] = df['STL_AVG'] + df['BLK_AVG'] + df['DREB_AVG']
     df['AST_TOV_RATIO'] = df['AST_AVG'] / (df['TOV_AVG'] + 1)
-    df['GAME_DATE'] = pd.to_datetime(df['GAME_DATE'], format='%b %d, %Y')
     df['EFFICIENCY'] = df['FG_PCT_AVG'] * df['PTS_AVG']
     df['PREV_GAME_DATE'] = df['GAME_DATE'].shift(-1)
     df['DAYS_REST'] = (df['GAME_DATE'] - df['PREV_GAME_DATE']).dt.days.clip(lower=0)

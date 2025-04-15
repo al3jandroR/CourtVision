@@ -10,34 +10,45 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  async function handleGetPredictions() {
+  async function handleGetPredictions(date) {
     setLoading(true);
     setError(null);
-
-    const data = await fetchPredictions();
-
-    if (data) {
+  
+    try {
+      const response = await fetch(`${'http://127.0.0.1:8000'}/predict?date=${date}`);
+      const data = await response.json();
+  
       if (data.predictions) {
         setPredictions(data.predictions);
       } else {
         setPredictions(data);
       }
-    } else {
+    } catch (err) {
+      console.error(err);
       setError("Failed to load predictions.");
     }
   
     setLoading(false);
   }
+  
 
   return (
     <>
       <Header />
       <div className="container">
         <Controls onPredict={handleGetPredictions} />
+        
         {loading && <LoadingSpinner />}
-        {error && <p style={{ textAlign: "center", color: "red" }}>{error}</p>}
-        {predictions && <Predictions predictions={predictions} />}
+  
+        {!loading && error && (
+          <p style={{ textAlign: "center", color: "red" }}>{error}</p>
+        )}
+  
+        {!loading && predictions && (
+          <Predictions predictions={predictions} />
+        )}
       </div>
     </>
   );
+  
 }
