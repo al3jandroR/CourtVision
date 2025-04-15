@@ -8,11 +8,9 @@ from app.utils import (
     add_opponent_features, get_team_injuries
 )
 
-def run_colab_prediction_pipeline(model, features, date_str=None):
-    if not date_str:
-        date_str = datetime.now(timezone('US/Eastern')).strftime('%Y-%m-%d')
-    else:
-        date = date_str
+def run_colab_prediction_pipeline(model, features, date=None):
+    if date is None:
+        date = datetime.now(timezone('US/Eastern')).strftime('%Y-%m-%d')
 
     print("Fetching games for:", date, "\n")
     scoreboard = safe_request(scoreboardv2.ScoreboardV2, game_date=date)
