@@ -6,7 +6,7 @@ import { fetchPredictions } from './api';
 import { useState } from 'react';
 
 export default function App() {
-  const [predictions, setPredictions] = useState(null);
+  const [predictions, setPredictions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -15,8 +15,7 @@ export default function App() {
     setError(null);
   
     try {
-      const response = fetchPredictions(date);
-      const data = await response.json();
+      const data = await fetchPredictions(date);
   
       if (data.predictions) {
         setPredictions(data.predictions);
