@@ -15,8 +15,7 @@ export default function App() {
     setError(null);
   
     try {
-      const response = await fetch(`${'http://127.0.0.1:8000'}/predict?date=${date}`);
-      const data = await response.json();
+      const data = await fetchPredictions();
   
       if (data.predictions) {
         setPredictions(data.predictions);
