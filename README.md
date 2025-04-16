@@ -20,16 +20,16 @@ CourtVision predicts the outcomes of NBA games using:
 | ML Model     | scikit-learn (.pkl model)    |
 | Data Source  | [nba_api](https://github.com/swar/nba_api) for live stats |
 | Frontend     | React (Vite)                 |
-| Deployment   | Render (API) + Vercel (UI) *(coming soon)*
+| Deployment   | Fly.io (API) + Vercel (UI)
 
 
 ## In Progress
 
 ✅ Backend API built with FastAPI  
 ✅ Model and injury logic migrated from notebook  
-✅ Frontend connected to live predictions  
+✅ Frontend connected to live predictions
+✅ Fly.io + Vercel deployment
 🛠 UI styling, loading UX, and error handling  
-📦 Render + Vercel deployment coming next
 
 ## Original Project
 
