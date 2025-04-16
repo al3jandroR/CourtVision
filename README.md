@@ -27,8 +27,8 @@ CourtVision predicts the outcomes of NBA games using:
 
 ✅ Backend API built with FastAPI  
 ✅ Model and injury logic migrated from notebook  
-✅ Frontend connected to live predictions
-✅ Fly.io + Vercel deployment
+✅ Frontend connected to live predictions   
+✅ Fly.io + Vercel deployment              
 🛠 UI styling, loading UX, and error handling  
 
 ## Original Project
