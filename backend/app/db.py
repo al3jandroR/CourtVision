@@ -2,13 +2,6 @@
 import psycopg2
 import os
 import json
-from pathlib import Path
-from dotenv import load_dotenv
-
-env_path = Path(__file__).resolve().parent / ".env"
-print("[DEBUG] Looking for .env at:", env_path)
-load_dotenv(dotenv_path=env_path)
-print("[DEBUG] NEON_DB_URL =", os.getenv("NEON_DB_URL"))
 
 DB_URL = os.getenv("NEON_DB_URL")
 
