@@ -20,12 +20,13 @@ primary_region = 'dfw'
   processes = ['app']
 
   [[http_service.checks]]
-    grace_period = "15s"
-    interval = "30s"
-    timeout = "10s"
-    method = "get"
-    path = "/healthz"
-    protocol = "http"
+  grace_period = "30s"
+  interval = "1m"
+  timeout = "10s"
+  method = "get"
+  path = "/healthz"
+  protocol = "http"
+
 
 [[vm]]
   memory = '1gb'

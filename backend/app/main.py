@@ -3,11 +3,13 @@ from fastapi import FastAPI, Query, Depends, HTTPException, status
 from app.model import load_model, predict_games
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import APIKeyHeader
+from fastapi.responses import JSONResponse
 from app.db import init_db, load_prediction, save_prediction
 import os, datetime
 
 app = FastAPI()
 model = load_model()
+ready = False
 
 app.add_middleware(
     CORSMiddleware,
@@ -28,6 +30,8 @@ def setup():
         print(f"[STARTUP] Generating prediction for {today}")
         result = predict_games(model, today)
         save_prediction(today, result)
+    global ready
+    ready = True
 
 
 async def get_api_key(api_key: str = Depends(api_key_header)):
@@ -45,6 +49,8 @@ def root():
 
 @app.get("/healthz")
 def health():
+    if not ready:
+        return JSONResponse(status_code=503, content={"status": "starting"})
     return {"status": "ok"}
 
 @app.get("/predict")
