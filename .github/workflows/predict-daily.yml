@@ -1,0 +1,19 @@
+name: Daily Prediction Caching
+
+on:
+  schedule:
+    - cron: "0 9 * * *"  # daily 9:00 UTC
+  workflow_dispatch:      # allow manual trigger
+
+jobs:
+  run-predict:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hit /predict endpoint for today
+        run: |
+          DATE=$(date -u +%F)
+          curl -X GET "$API_URL/predict?date=$DATE" \
+            -H "x-api-key: $API_KEY"
+        env:
+          API_URL: ${{ secrets.API_URL }}
+          API_KEY: ${{ secrets.API_KEY }}

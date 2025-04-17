@@ -1,0 +1,14 @@
+name: Keep Fly API Warm
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+
+jobs:
+  ping-health:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping /healthz
+        run: curl "$API_URL/healthz"
+        env:
+          API_URL: ${{ secrets.API_URL }}
