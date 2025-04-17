@@ -65,7 +65,7 @@ def predict(date: str = Query(None), api_key: str = Depends(get_api_key)):
     )
 
 @app.get("/dates")
-def get_dates():
+def get_dates(api_key: str = Depends(get_api_key)):
     try:
         dates = get_available_dates()
         return JSONResponse(content={"dates": dates})
