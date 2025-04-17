@@ -2,7 +2,7 @@ import Header from './components/Header';
 import Controls from './components/Controls';
 import Predictions from './components/Predictions';
 import LoadingSpinner from './components/LoadingSpinner';
-import { fetchPredictions } from './api';
+import { fetchPredictions } from './api.mjs';
 import { useState } from 'react';
 
 export default function App() {
