@@ -4,7 +4,7 @@ from app.model import load_model, predict_games
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import APIKeyHeader
 from fastapi.responses import JSONResponse
-from app.db import init_db, load_prediction, save_prediction
+from app.db import init_db, load_prediction, save_prediction, get_available_dates
 import os, datetime
 
 app = FastAPI()
@@ -63,3 +63,11 @@ def predict(date: str = Query(None), api_key: str = Depends(get_api_key)):
         status_code=404,
         detail=f"No prediction available for {date} — check back later."
     )
+
+@app.get("/dates")
+def get_dates():
+    try:
+        dates = get_available_dates()
+        return JSONResponse(content={"dates": dates})
+    except Exception as e:
+        return JSONResponse(status_code=500, content={"error": str(e)})
