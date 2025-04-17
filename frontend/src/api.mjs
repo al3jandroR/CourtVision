@@ -20,9 +20,14 @@ export async function fetchPredictions(date, maxAttempts = 6, baseDelay = 2000, 
 }
 
 export async function fetchAvailableDates() {
-    const response = await fetch('/api/dates');
-    if (!response.ok) throw new Error('Failed to fetch dates');
-    const data = await response.json();
-    return data.dates;
-}
+    try {
+      const response = await fetch('/api/dates');
+      if (!response.ok) throw new Error('Failed to fetch dates');
+      const data = await response.json();
+      return data.dates || data;
+    } catch (error) {
+      console.error("Error fetching dates:", error);
+      return [];
+    }
+  }
   
