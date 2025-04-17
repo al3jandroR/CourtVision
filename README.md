@@ -1,4 +1,4 @@
-# CourtVision
+# 🏀CourtVision
 
 > A full-stack NBA game prediction app using real-time data, injury reports, and machine learning.
 
