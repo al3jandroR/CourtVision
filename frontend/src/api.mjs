@@ -18,4 +18,11 @@ export async function fetchPredictions(date, maxAttempts = 6, baseDelay = 2000, 
   
     throw new Error("Backend did not respond after retries.");
 }
+
+export async function fetchAvailableDates() {
+    const response = await fetch('/api/dates');
+    if (!response.ok) throw new Error('Failed to fetch dates');
+    const data = await response.json();
+    return data.dates;
+}
   

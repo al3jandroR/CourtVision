@@ -1,7 +1,7 @@
 import Header from './components/Header';
 import Predictions from './components/Predictions';
 import LoadingSpinner from './components/LoadingSpinner';
-import { fetchPredictions } from './api.mjs';
+import { fetchPredictions, fetchAvailableDates } from './api.mjs';
 import { useState, useEffect } from 'react';
 
 export default function App() {
@@ -9,18 +9,23 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [retryAttempt, setRetryAttempt] = useState(0);
+  const [availableDates, setAvailableDates] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(() => new Date().toISOString().split('T')[0]);
 
   useEffect(() => {
-    async function warmAndFetch() {
+    async function loadDatesAndFetch() {
       setLoading(true);
       setError(null);
 
       try {
+        const dates = await fetchAvailableDates();
+        setAvailableDates(dates);
+
         await fetch('/api/ping').catch(() => {});
         await new Promise(res => setTimeout(res, 2000));
 
         const today = new Date().toISOString().split('T')[0];
-        const data = await fetchPredictions(today, 5, 2000);
+        const data = await fetchPredictions(today, 5, 2000, setRetryAttempt);
 
         if (data?.predictions) {
           setPredictions(data.predictions);
@@ -37,7 +42,7 @@ export default function App() {
       setLoading(false);
     }
 
-    warmAndFetch();
+    loadDatesAndFetch();
   }, []);
 
   return (
@@ -61,6 +66,40 @@ export default function App() {
 
         {!loading && predictions && (
           <Predictions predictions={predictions} />
+        )}
+
+        {!loading && availableDates.length > 0 && (
+          <div style={{ textAlign: "center", marginBottom: "1rem" }}>
+            <select
+              value={selectedDate}
+              onChange={async (e) => {
+                const chosenDate = e.target.value;
+                setSelectedDate(chosenDate);
+                setLoading(true);
+                setError(null);
+                try {
+                  setRetryAttempt(0);
+                  const data = await fetchPredictions(chosenDate, 5, 2000, setRetryAttempt);
+                  if (data?.predictions) {
+                    setPredictions(data.predictions);
+                  } else if (data) {
+                    setPredictions(data);
+                  } else {
+                    setError("No predictions available.");
+                  }
+                } catch (err) {
+                  setError("Failed to load predictions.");
+                }
+                setLoading(false);
+              }}
+            >
+              {availableDates.map(date => (
+                <option key={date} value={date}>
+                  {date}
+                </option>
+              ))}
+          </select>
+          </div>
         )}
       </div>
     </>

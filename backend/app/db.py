@@ -38,3 +38,12 @@ def load_prediction(date_str):
     row = cursor.fetchone()
     conn.close()
     return row[0] if row else None
+
+def get_available_dates():
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT date FROM predictions ORDER BY date DESC;")
+    rows = cur.fetchall()
+    conn.close()
+    return [row[0] for row in rows]
+
