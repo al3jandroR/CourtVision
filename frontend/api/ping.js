@@ -1,6 +1,6 @@
 export default async function handler(req, res) {
     try {
-      const apiUrl = 'https://backend-dry-butterfly-4692.fly.dev';
+      const apiUrl = process.env.FLY_API_URL;
       const response = await fetch(`${apiUrl}/healthz`);
       const data = await response.text();
   
