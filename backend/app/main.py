@@ -45,4 +45,11 @@ def root():
 
 @app.get("/predict")
 def predict(date: str = Query(None), api_key: str = Depends(get_api_key)):
-    return predict_games(model, date)
+    cached = load_prediction(date)
+    if cached:
+        return cached
+    
+    raise HTTPException(
+        status_code=404,
+        detail=f"No prediction available for {date} — check back later."
+    )
