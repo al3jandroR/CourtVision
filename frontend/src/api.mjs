@@ -1,14 +1,15 @@
-export async function fetchPredictions(date, maxAttempts = 6, baseDelay = 2000) {
+export async function fetchPredictions(date, maxAttempts = 6, baseDelay = 2000, setRetryAttempt = () => {}) {
     for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-      try {
-        const response = await fetch(`/api/predict?date=${date}`);
-        if (response.ok) {
-          const data = await response.json();
-          return data.predictions || data;
+        setRetryAttempt(attempt);
+        try {
+            const response = await fetch(`/api/predict?date=${date}`);
+            if (response.ok) {
+                const data = await response.json();
+                return data.predictions || data;
+            }
+        } catch (error) {
+            console.error(`Attempt ${attempt} failed.`);
         }
-      } catch (error) {
-        console.error(`Attempt ${attempt} failed.`);
-      }
   
       const delay = baseDelay * attempt;
       console.log(`Retrying in ${delay}ms...`);
@@ -16,5 +17,5 @@ export async function fetchPredictions(date, maxAttempts = 6, baseDelay = 2000) 
     }
   
     throw new Error("Backend did not respond after retries.");
-  }
+}
   
