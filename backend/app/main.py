@@ -43,6 +43,10 @@ async def get_api_key(api_key: str = Depends(api_key_header)):
 def root():
     return {"message": "NBA Predictor API Running"}
 
+@app.get("/healthz")
+def health():
+    return {"status": "ok"}
+
 @app.get("/predict")
 def predict(date: str = Query(None), api_key: str = Depends(get_api_key)):
     cached = load_prediction(date)
