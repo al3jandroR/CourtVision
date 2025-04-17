@@ -1,51 +1,63 @@
-🏀CourtVision
-A full-stack NBA game prediction app using real-time data, injury reports, and machine learning.
+# CourtVision
 
-CourtVision is an expansion of my original NBA prediction model, which was developed as a class project in Google Colab using team statistics and classification models. This app takes that foundation and evolves it into a production-style web application.
+> A full-stack NBA game prediction app using real-time data, injury reports, and machine learning.
 
-What It Does
-CourtVision predicts the outcomes of NBA games using:
+CourtVision is an expansion of my original [NBA prediction model](https://github.com/al3jandroR/nba_predictions), which was developed as a class project in Google Colab using team statistics and classification models. This app takes that foundation and evolves it into a production-style web application.
 
-Rolling team performance metrics
+---
 
-Real-time injury reports
+## What It Does
 
-Opponent-based matchup features
+CourtVision predicts NBA game outcomes using:
+- Rolling team performance metrics (5-game averages)
+- Real-time injury reports and player availability
+- Opponent-based matchup features
+- A trained ML model (Random Forest / Gradient Boosting)
+- Caching of predictions in a PostgreSQL database (via Neon)
 
-A trained machine learning model (Random Forest / Gradient Boosting)
+---
 
-Daily-cached results for quick frontend access
+## Stack Overview
 
-Stack Overview
+| Layer        | Tech                                 |
+|--------------|--------------------------------------|
+| Backend      | Python, FastAPI                      |
+| ML Model     | scikit-learn (.pkl)                  |
+| Data Source  | [nba_api](https://github.com/swar/nba_api) |
+| Database     | Neon (PostgreSQL) for caching        |
+| Frontend     | React (Vite)                         |
+| Deployment   | Fly.io (API) + Vercel (UI)           |
+| Extras       | GitHub Actions for daily caching + warming bot |
 
-Layer	Tech
-Backend	Python, FastAPI
-ML Model	scikit-learn (.pkl model)
-Data Source	nba_api
-Database	Neon (PostgreSQL)
-Frontend	React (Vite)
-Deployment	Fly.io (API) + Vercel (UI)
-Cron Jobs	GitHub Actions (daily /predict + ping)
-Auth	API Key protected endpoints
-📦 Features
-✅ FastAPI backend serves game predictions
-✅ PostgreSQL database caches daily prediction results
-✅ /predict endpoint runs once daily to reduce latency and cost
-✅ /healthz endpoint used for warming backend before calls
-✅ Frontend pings backend and displays predictions with retries
-✅ Only available cached dates are shown in the UI
-✅ Vercel handles frontend requests via API proxy to hide backend URL
+---
 
-In Progress
-Adding player-level metrics to expand predictive accuracy
+## Features
 
-UI polish: dark mode, better loading states
+✅ FastAPI backend with preloaded model  
+✅ Caching of predictions by date using PostgreSQL  
+✅ Auto-fetching and retry logic to wake sleeping API  
+✅ Clean, auto-loading React UI with error handling  
+✅ GitHub Action to auto-fetch & cache today’s prediction
 
-Visualization of performance trends
+---
 
-Original Project
-The core machine learning work behind CourtVision was first developed in this repo:
+## In Progress
+
+🛠 Frontend UX polish (better loading/feedback)  
+🛠 Past game analytics and player-level expansion  
+🛠 Optional login + favorites tracking  
+
+---
+
+## Original Model
+
+The ML model powering this app was first built here:  
 [nba-predictions](https://github.com/al3jandroR/nba_predictions)
 
-🏁 Goal
-To build a clean, interactive, data-driven web app for basketball prediction — one that’s expandable to player-level modeling, performance visualization, and potential betting insights.
+---
+
+## Goal
+
+To build a clean, interactive, data-driven web app for NBA predictions — one that’s expandable to include player projections, matchup visualizations, and betting market analysis.
+
+---
