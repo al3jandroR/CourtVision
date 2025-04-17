@@ -8,6 +8,7 @@ export default function App() {
   const [predictions, setPredictions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [retryAttempt, setRetryAttempt] = useState(0);
 
   useEffect(() => {
     async function warmAndFetch() {
@@ -46,9 +47,11 @@ export default function App() {
         {loading && (
           <div style={{ textAlign: "center", padding: "20px" }}>
             <LoadingSpinner />
-            <p style={{ marginTop: "12px", fontSize: "16px", color: "#555" }}>
-              Waking the backend... hang tight 👀
-            </p>
+            {retryAttempt >= 2 && (
+              <p style={{ marginTop: "12px", fontSize: "16px", color: "#555" }}>
+                Waking the backend... hang tight!
+              </p>
+            )}
           </div>
         )}
 
