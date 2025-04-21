@@ -60,7 +60,7 @@ export default function App() {
         {loading && (
           <div style={{ textAlign: "center", padding: "20px" }}>
             <LoadingSpinner />
-            {retryAttempt >= 2 && (
+            {retryAttempt >= 1 && (
               <p style={{ marginTop: "12px", fontSize: "16px", color: "#555" }}>
                 Waking the backend... hang tight!
               </p>
