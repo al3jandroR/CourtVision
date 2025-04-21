@@ -18,9 +18,6 @@ export default function App() {
       setError(null);
 
       try {
-        const dates = await fetchAvailableDates();
-        setAvailableDates(dates);
-
         await fetch('/api/ping').catch(() => {});
         await new Promise(res => setTimeout(res, 2000));
 
@@ -34,6 +31,17 @@ export default function App() {
         } else {
           setError("No predictions available.");
         }
+        const dates = await fetchAvailableDates();
+        setAvailableDates(dates);
+
+        if (dates.includes(today)) {
+          setSelectedDate(today);
+        } else if (dates.length > 0) {
+          setSelectedDate(dates[0]);
+        } else {
+          setSelectedDate('');
+        }
+
       } catch (err) {
         console.error(err);
         setError("Failed to load predictions.");
