@@ -64,6 +64,17 @@ def predict(date: str = Query(None), api_key: str = Depends(get_api_key)):
         detail=f"No prediction available for {date} — check back later."
     )
 
+@app.get("/loadpredict")
+def load_predict(date: str = Query(...)):
+    cached = load_prediction(date)
+    if cached:
+        return cached
+
+    raise HTTPException(
+        status_code=404,
+        detail=f"No predictions found for {date}"
+    )
+
 @app.get("/dates")
 def get_dates(api_key: str = Depends(get_api_key)):
     try:
