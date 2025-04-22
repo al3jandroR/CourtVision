@@ -4,7 +4,7 @@
   padding: 2rem;
   text-align: center;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #f9fafe;
+  background: #1b1b1b;
   color: #333;
 }
 
@@ -22,7 +22,7 @@
 }
 
 .game-card {
-  background: white;
+  background: #ffffff;
   border-radius: 16px;
   padding: 1.5rem;
   margin: 1rem auto;
@@ -44,8 +44,8 @@
   border-color: #ff3b30;
 }
 .game-card.pending {
-  background-color: #f3f4f6;
-  border-color: #d1d5db;
+  background-color: #b9b9b9;
+  border-color: #6d6d6d;
 }
 
 .game-card h3 {
