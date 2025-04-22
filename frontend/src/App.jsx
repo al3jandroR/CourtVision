@@ -3,6 +3,7 @@ import Predictions from './components/Predictions';
 import LoadingSpinner from './components/LoadingSpinner';
 import { fetchPredictions, fetchAvailableDates } from './api.mjs';
 import { useState, useEffect } from 'react';
+import Footer from './components/Footer';
 import './App.css';
 
 export default function App() {
@@ -127,6 +128,7 @@ export default function App() {
           </p>
         )}
       </div>
+      <Footer />
     </>
   );  
 }
