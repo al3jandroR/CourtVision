@@ -3,6 +3,7 @@ import Predictions from './components/Predictions';
 import LoadingSpinner from './components/LoadingSpinner';
 import { fetchPredictions, fetchAvailableDates } from './api.mjs';
 import { useState, useEffect } from 'react';
+import './app.css';
 
 export default function App() {
   const [predictions, setPredictions] = useState([]);
