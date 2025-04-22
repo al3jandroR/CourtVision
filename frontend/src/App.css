@@ -30,6 +30,7 @@
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
   border: 1px solid #e0e0e0;
   transition: transform 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
 }
 .game-card:hover {
   transform: translateY(-3px);
@@ -44,8 +45,8 @@
   border-color: #ff3b30;
 }
 .game-card.pending {
-  background-color: #b9b9b9;
-  border-color: #6d6d6d;
+  background-color: #d4d4d4;
+  border-color: #a0a0a0;
 }
 
 .game-card h3 {
