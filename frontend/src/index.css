@@ -1,4 +1,3 @@
-/* Root Variables / Defaults */
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -64,6 +63,7 @@ button:focus-visible {
   background-color: #141e57;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
 }
 
 .controls {
@@ -82,17 +82,6 @@ button:focus-visible {
   justify-items: center;
 }
 
-.game-card {
-  background-color: #568492;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 1rem;
-  text-align: center;
-  width: 100%;
-  max-width: 400px;
-}
-
-/* Spinner / Loader */
 .spinner-container {
   display: flex;
   flex-direction: column;
@@ -115,7 +104,6 @@ button:focus-visible {
   }
 }
 
-/* Light Mode Overrides */
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
