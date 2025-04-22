@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import APIKeyHeader
 from fastapi.responses import JSONResponse
 from app.db import init_db, load_prediction, save_prediction, get_available_dates
+from app.nba_api import backfill_actual_scores
 import os, datetime
 
 app = FastAPI()
@@ -82,3 +83,11 @@ def get_dates(api_key: str = Depends(get_api_key)):
         return JSONResponse(content={"dates": dates})
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})
+    
+@app.post("/backfill-actuals")
+def backfill_actuals(api_key: str = Depends(get_api_key)):
+    return backfill_actual_scores(dry_run=False)
+
+@app.post("/backfill-actuals-dry")
+def backfill_dry(api_key: str = Depends(get_api_key)):
+    return backfill_actual_scores()

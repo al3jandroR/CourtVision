@@ -1,11 +1,14 @@
-from datetime import datetime
+from datetime import datetime, date as dt
 from pytz import timezone
 import pandas as pd
+import time
+
 from nba_api.stats.endpoints import scoreboardv2
+from app.db import load_prediction, save_prediction, get_available_dates
 from app.utils import (
-    safe_request, get_team_abbr, get_team_name, 
-    get_team_stats, get_injuries, get_all_rosters, 
-    add_opponent_features, get_team_injuries
+    safe_request, get_team_abbr, get_team_name,
+    get_team_stats, get_injuries, get_all_rosters,
+    add_opponent_features, get_team_injuries, get_final_scores, get_game_id
 )
 
 def run_colab_prediction_pipeline(model, features, date=None):
@@ -83,3 +86,55 @@ def run_colab_prediction_pipeline(model, features, date=None):
             print(f"Error predicting {away} @ {home}: {e}")
 
     return {"predictions": output}
+
+def backfill_actual_scores(dry_run=True):
+    updated = 0
+    skipped = 0
+    dates = get_available_dates()
+
+    for date in dates:
+        cached = load_prediction(date)
+
+        if not cached or "predictions" not in cached:
+            continue
+        if all("actual_winner" in g for g in cached["predictions"]):
+            skipped += len(cached["predictions"])
+            continue
+
+        for game in cached["predictions"]:
+            try:
+                away, home = game["Matchup"].split(" @ ")
+            except Exception as e:
+                print(f"Could not parse matchup: {game.get('Matchup')} — {e}")
+                continue
+
+            try:
+                game_id = get_game_id(date, home, away)
+                if not game_id:
+                    continue
+
+                scores = get_final_scores(game_id)
+                home_score = scores.get(home)
+                away_score = scores.get(away)
+
+                if home_score is None or away_score is None:
+                    continue
+
+                actual_winner = home if home_score > away_score else away
+
+                game["Actual_Winner"] = actual_winner
+                game["Home_Score"] = home_score
+                game["Away_Score"] = away_score
+
+                if not dry_run:
+                    save_prediction(date, cached)
+                    time.sleep(1)
+                else:
+                    print(f"[DRY RUN] {date}: {away} @ {home} → {home_score}-{away_score} | Winner: {actual_winner}")
+
+                updated += 1
+
+            except Exception as e:
+                print(f"Error processing {home} vs {away} on {date}: {e}")
+
+    return {"status": "complete", "updated": updated, "skipped": skipped}

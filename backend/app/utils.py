@@ -1,19 +1,7 @@
 from nba_api.stats.endpoints import teamgamelog
 from nba_api.stats.static import teams
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.ensemble import GradientBoostingClassifier
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score
-from sklearn.model_selection import GridSearchCV
-from sklearn.model_selection import StratifiedShuffleSplit
-from sklearn.model_selection import StratifiedKFold
-from sklearn.feature_selection import SelectKBest, f_classif
-from nba_api.stats.endpoints import scoreboardv2
-from nba_api.stats.endpoints import CommonTeamRoster
-from datetime import datetime, timedelta
-from pytz import timezone
+from nba_api.stats.endpoints import scoreboardv2, boxscoretraditionalv2, CommonTeamRoster
 import pandas as pd
-import matplotlib.pyplot as plt
 import time
 
 nba_teams = teams.get_teams()
@@ -153,3 +141,35 @@ def get_all_rosters():
     final_roster = pd.concat(all_rosters, ignore_index=True)
     final_roster.columns = final_roster.columns.str.upper()
     return final_roster[['PLAYER', 'TEAM']]
+
+def get_game_id(date, home_abbr, away_abbr):
+    home_id = get_team_id(home_abbr)
+    away_id = get_team_id(away_abbr)
+
+    if not home_id or not away_id:
+        print(f"Missing team ID for {home_abbr} or {away_abbr}")
+        return None
+
+    scoreboard = safe_request(scoreboardv2.ScoreboardV2, game_date=date)
+    df = scoreboard.get_data_frames()[0]
+
+    game_row = df[
+        (df["HOME_TEAM_ID"] == home_id) & 
+        (df["VISITOR_TEAM_ID"] == away_id)
+    ]
+
+    if not game_row.empty:
+        return game_row.iloc[0]["GAME_ID"]
+    
+    print(f"No game found for {away_abbr} @ {home_abbr} on {date}")
+    return None
+
+def get_final_scores(game_id):
+    box = safe_request(boxscoretraditionalv2.BoxScoreTraditionalV2, game_id=game_id)
+    df = box.get_data_frames()[1]
+
+    if df.empty or "PTS" not in df.columns:
+        print(f"[WARN] Missing score for game ID {game_id}")
+        return {}
+
+    return df.set_index("TEAM_ABBREVIATION")["PTS"].to_dict()
