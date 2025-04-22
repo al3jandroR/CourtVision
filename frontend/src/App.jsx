@@ -66,17 +66,13 @@ export default function App() {
             </p>
           </div>
         )}
-
+  
         {!loading && error && (
           <p style={{ textAlign: "center", color: "red" }}>{error}</p>
         )}
-
-        {!loading && predictions && (
-          <Predictions predictions={predictions} />
-        )}
-
+  
         {!loading && availableDates.length > 0 && (
-          <div style={{ textAlign: "center", marginBottom: "1rem" }}>
+          <div style={{ textAlign: "center", marginBottom: "1.5rem" }}>
             <select
               value={selectedDate}
               onChange={async (e) => {
@@ -85,7 +81,7 @@ export default function App() {
                 setLoading(true);
                 setError(null);
                 setRetryAttempt(0);
-
+  
                 try {
                   const data = await fetchPredictions(chosenDate, 5, 2000, setRetryAttempt);
                   if (data?.predictions) {
@@ -106,10 +102,14 @@ export default function App() {
                   {date}
                 </option>
               ))}
-          </select>
+            </select>
           </div>
         )}
-
+  
+        {!loading && predictions && (
+          <Predictions predictions={predictions} />
+        )}
+  
         {!loading && availableDates.length === 0 && (
           <p style={{ textAlign: "center", marginTop: "1rem", color: "#777" }}>
             No prediction dates available. Try again later.
@@ -117,5 +117,5 @@ export default function App() {
         )}
       </div>
     </>
-  );
+  );  
 }
