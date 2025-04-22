@@ -1,4 +1,5 @@
 from http.client import HTTPException
+from functools import lru_cache
 import datetime
 import psycopg2
 import os
@@ -32,6 +33,7 @@ def save_prediction(date_str, result):
     conn.commit()
     conn.close()
 
+@lru_cache(maxsize=128)
 def load_prediction(date_str):
     try:
         datetime.date.fromisoformat(date_str)
