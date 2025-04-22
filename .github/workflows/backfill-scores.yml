@@ -1,0 +1,18 @@
+name: Daily Score Backfill
+
+on:
+  schedule:
+    - cron: "0 16 * * *"  # daily 16:00 UTC
+  workflow_dispatch:      # allow manual trigger
+
+jobs:
+  run-backfill:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hit /backfill-actuals to update scores
+        run: |
+          curl -X POST "$API_URL/backfill-actuals" \
+            -H "x-api-key: $API_KEY"
+        env:
+          API_URL: ${{ secrets.API_URL }}
+          API_KEY: ${{ secrets.API_KEY }}
