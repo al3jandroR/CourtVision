@@ -1,4 +1,5 @@
-# db.py
+from http.client import HTTPException
+import datetime
 import psycopg2
 import os
 import json
@@ -32,6 +33,14 @@ def save_prediction(date_str, result):
     conn.close()
 
 def load_prediction(date_str):
+    try:
+        datetime.date.fromisoformat(date_str)
+    except ValueError:
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid date format. Expected YYYY-MM-DD."
+        )
+
     conn = get_connection()
     cursor = conn.cursor()
     cursor.execute("SELECT result FROM predictions WHERE date = %s", (date_str,))
