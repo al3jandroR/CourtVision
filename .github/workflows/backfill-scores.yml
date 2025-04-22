@@ -2,8 +2,8 @@ name: Daily Score Backfill
 
 on:
   schedule:
-    - cron: "0 16 * * *"  # daily 16:00 UTC
-  workflow_dispatch:      # allow manual trigger
+    - cron: "0 16 * * *"
+  workflow_dispatch:
 
 jobs:
   run-backfill:

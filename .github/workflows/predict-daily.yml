@@ -2,8 +2,8 @@ name: Daily Prediction Caching
 
 on:
   schedule:
-    - cron: "0 17 * * *"  # daily 17:00 UTC
-  workflow_dispatch:      # allow manual trigger
+    - cron: "0 17 * * *"
+  workflow_dispatch:
 
 jobs:
   run-predict:
