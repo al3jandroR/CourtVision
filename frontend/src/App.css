@@ -5,7 +5,21 @@
   text-align: center;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: #1b1b1b;
-  color: #333;
+  color: #f5f5f5;
+}
+
+header {
+  background-color: #0f172a;
+  color: #f5f5f5;
+  padding: 1.5rem;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid #374151;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  margin-bottom: 2rem;
+  border-radius: 0 0 12px 12px;
 }
 
 .logo {
@@ -31,6 +45,7 @@
   border: 1px solid #e0e0e0;
   transition: transform 0.2s, box-shadow 0.2s;
   box-sizing: border-box;
+  color: #111;
 }
 .game-card:hover {
   transform: translateY(-3px);
@@ -45,8 +60,8 @@
   border-color: #ff3b30;
 }
 .game-card.pending {
-  background-color: #d4d4d4;
-  border-color: #a0a0a0;
+  background-color: #c5c5c5;
+  border-color: #646464;
 }
 
 .game-card h3 {
@@ -56,21 +71,6 @@
 .game-card p {
   margin: 0.25rem 0;
   font-size: 0.95rem;
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
 }
 
 .card {
