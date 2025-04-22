@@ -11,17 +11,32 @@ export default function App() {
   const [error, setError] = useState(null);
   const [retryAttempt, setRetryAttempt] = useState(0);
   const [availableDates, setAvailableDates] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(() => new Date().toISOString().split('T')[0]);
+  const [selectedDate, setSelectedDate] = useState('');
 
   useEffect(() => {
-    async function loadDatesAndFetch() {
+    async function loadInitialData() {
       setLoading(true);
       setError(null);
-
+  
       try {
-        const today = new Date().toISOString().split('T')[0];
-        const data = await fetchPredictions(today, 5, 2000, setRetryAttempt);
-
+        const dates = await fetchAvailableDates();
+        setAvailableDates(dates);
+  
+        let initialDate = new Date().toISOString().split('T')[0];
+        if (!dates.includes(initialDate) && dates.length > 0) {
+          initialDate = dates[0];
+        }
+        setSelectedDate(initialDate);
+  
+        const data = await fetchPredictions(
+          initialDate,
+          5,
+          2000,
+          setRetryAttempt,
+          dates,
+          setSelectedDate
+        );
+  
         if (data?.predictions) {
           setPredictions(data.predictions);
         } else if (data) {
@@ -29,28 +44,17 @@ export default function App() {
         } else {
           setError("No predictions available.");
         }
-
-        const dates = await fetchAvailableDates();
-        setAvailableDates(dates);
-
-        if (dates.includes(today)) {
-          setSelectedDate(today);
-        } else if (dates.length > 0) {
-          setSelectedDate(dates[0]);
-        } else {
-          setSelectedDate('');
-        }
-
+  
       } catch (err) {
         console.error(err);
         setError("Failed to load predictions.");
       }
-
+  
       setLoading(false);
     }
-
-    loadDatesAndFetch();
-  }, []);
+  
+    loadInitialData();
+  }, []);  
 
   return (
     <>
@@ -83,7 +87,14 @@ export default function App() {
                 setRetryAttempt(0);
   
                 try {
-                  const data = await fetchPredictions(chosenDate, 5, 2000, setRetryAttempt);
+                  const data = await fetchPredictions(
+                    chosenDate,
+                    5,
+                    2000,
+                    setRetryAttempt,
+                    availableDates,
+                    setSelectedDate
+                  );                  
                   if (data?.predictions) {
                     setPredictions(data.predictions);
                   } else if (data) {
