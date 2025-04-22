@@ -18,9 +18,6 @@ export default function App() {
       setError(null);
 
       try {
-        await fetch('/api/ping').catch(() => {});
-        await new Promise(res => setTimeout(res, 2000));
-
         const today = new Date().toISOString().split('T')[0];
         const data = await fetchPredictions(today, 5, 2000, setRetryAttempt);
 
@@ -31,6 +28,7 @@ export default function App() {
         } else {
           setError("No predictions available.");
         }
+
         const dates = await fetchAvailableDates();
         setAvailableDates(dates);
 
@@ -60,11 +58,11 @@ export default function App() {
         {loading && (
           <div style={{ textAlign: "center", padding: "20px" }}>
             <LoadingSpinner />
-            {retryAttempt >= 1 && (
-              <p style={{ marginTop: "12px", fontSize: "16px", color: "#555" }}>
-                Waking the backend... hang tight!
-              </p>
-            )}
+            <p style={{ marginTop: "12px", fontSize: "16px", color: "#555" }}>
+              {retryAttempt > 1
+                ? "Waking the backend... hang tight!"
+                : "Loading predictions..."}
+            </p>
           </div>
         )}
 
@@ -85,8 +83,9 @@ export default function App() {
                 setSelectedDate(chosenDate);
                 setLoading(true);
                 setError(null);
+                setRetryAttempt(0);
+
                 try {
-                  setRetryAttempt(0);
                   const data = await fetchPredictions(chosenDate, 5, 2000, setRetryAttempt);
                   if (data?.predictions) {
                     setPredictions(data.predictions);
@@ -108,6 +107,12 @@ export default function App() {
               ))}
           </select>
           </div>
+        )}
+
+        {!loading && availableDates.length === 0 && (
+          <p style={{ textAlign: "center", marginTop: "1rem", color: "#777" }}>
+            No prediction dates available. Try again later.
+          </p>
         )}
       </div>
     </>
