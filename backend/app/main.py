@@ -10,7 +10,6 @@ import os, datetime
 
 app = FastAPI()
 model = load_model()
-ready = False
 
 app.add_middleware(
     CORSMiddleware,
@@ -26,14 +25,6 @@ api_key_header = APIKeyHeader(name="x-api-key", auto_error=False)
 @app.on_event("startup")
 def setup():
     init_db()
-    today = datetime.date.today().isoformat()
-    if not load_prediction(today):
-        print(f"[STARTUP] Generating prediction for {today}")
-        result = predict_games(model, today)
-        save_prediction(today, result)
-    global ready
-    ready = True
-
 
 async def get_api_key(api_key: str = Depends(api_key_header)):
     if api_key == API_KEY:
@@ -48,22 +39,19 @@ async def get_api_key(api_key: str = Depends(api_key_header)):
 def root():
     return {"message": "NBA Predictor API Running"}
 
-@app.get("/healthz")
-def health():
-    if not ready:
-        return JSONResponse(status_code=503, content={"status": "starting"})
-    return {"status": "ok"}
-
 @app.get("/predict")
 def predict(date: str = Query(None), api_key: str = Depends(get_api_key)):
+    if not date:
+        date = datetime.date.today().isoformat()
+
     cached = load_prediction(date)
     if cached:
         return cached
-    
-    raise HTTPException(
-        status_code=404,
-        detail=f"No prediction available for {date} — check back later."
-    )
+
+    print(f"[API] Generating prediction for {date}")
+    result = predict_games(model, date)
+    save_prediction(date, result)
+    return result
 
 @app.get("/loadpredict")
 def load_predict(date: str = Query(...)):
