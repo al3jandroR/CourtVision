@@ -116,3 +116,11 @@ select:focus {
   color: #777;
   font-size: 0.85rem;
 }
+
+.footer {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: #7c7c7c;
+  padding-bottom: 1rem;
+}
