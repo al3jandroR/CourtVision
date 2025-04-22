@@ -21,4 +21,4 @@ jobs:
         run: fly auth token $FLY_API_TOKEN
 
       - name: Scale down to 0 machines
-        run: fly scale count 0 --app your-app-name
+        run: fly scale count 0 --app backend-dry-butterfly-4692
