@@ -35,6 +35,7 @@ def save_prediction(date_str, result):
 
 @lru_cache(maxsize=128)
 def load_prediction(date_str):
+    print(f"[CACHE MISS] DB fetch for {date_str}")
     try:
         datetime.date.fromisoformat(date_str)
     except ValueError:
