@@ -3,19 +3,58 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f9fafe;
+  color: #333;
 }
 
 .logo {
   height: 6em;
   padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+  transition: filter 300ms, transform 300ms;
 }
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
+  transform: scale(1.05);
 }
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+.game-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin: 1rem auto;
+  max-width: 600px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e0e0e0;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.game-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+.game-card.correct {
+  background-color: #e6ffed;
+  border-color: #34c759;
+}
+.game-card.incorrect {
+  background-color: #ffe6e6;
+  border-color: #ff3b30;
+}
+.game-card.pending {
+  background-color: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+.game-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+.game-card p {
+  margin: 0.25rem 0;
+  font-size: 0.95rem;
 }
 
 @keyframes logo-spin {
@@ -35,8 +74,12 @@
 
 .card {
   padding: 2em;
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
 }
 
 .read-the-docs {
-  color: #888;
+  color: #777;
+  font-size: 0.85rem;
 }
