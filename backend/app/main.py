@@ -44,9 +44,9 @@ def predict(date: str = Query(None), api_key: str = Depends(get_api_key)):
     if not date:
         date = datetime.date.today().isoformat()
 
-    cached = load_prediction(date)
-    if cached:
-        return cached
+    prediction = load_prediction(date)
+    if prediction:
+        return prediction
 
     print(f"[API] Generating prediction for {date}")
     result = predict_games(model, date)
@@ -54,10 +54,10 @@ def predict(date: str = Query(None), api_key: str = Depends(get_api_key)):
     return result
 
 @app.get("/loadpredict")
-def load_predict(date: str = Query(...)):
-    cached = load_prediction(date)
-    if cached:
-        return cached
+def load_predict(date: str = Query(None)):
+    prediction = load_prediction(date)
+    if prediction:
+        return prediction
 
     raise HTTPException(
         status_code=404,
