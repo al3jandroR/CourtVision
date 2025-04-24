@@ -73,13 +73,13 @@ def run_colab_prediction_pipeline(model, features, date=None):
             output.append({
                 'Date': date,
                 'Matchup': f"{away} @ {home}",
-                'Predicted_Winner': winner,
-                'Home_Prob': round(nhome_proba, 2),
-                'Away_Prob': round(naway_proba, 2),
+                'Predicted_winner': winner,
+                'Home_prob': round(nhome_proba, 2),
+                'Away_prob': round(naway_proba, 2),
                 'Home_raw': round(home_proba, 2),
                 'Away_raw': round(away_proba, 2),
-                'Home_Injuries': home_injuries,
-                'Away_Injuries': away_injuries
+                'Home_injuries': home_injuries,
+                'Away_injuries': away_injuries
             })
 
         except Exception as e:
@@ -122,9 +122,9 @@ def backfill_actual_scores(dry_run=True):
 
                 actual_winner = home if home_score > away_score else away
 
-                game["Actual_Winner"] = actual_winner
-                game["Home_Score"] = home_score
-                game["Away_Score"] = away_score
+                game["Actual_winner"] = actual_winner
+                game["Home_score"] = home_score
+                game["Away_score"] = away_score
 
                 if not dry_run:
                     save_prediction(date, cached)
