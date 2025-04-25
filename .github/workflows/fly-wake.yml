@@ -1,12 +1,12 @@
-name: Wake Fly.io VM
+name: Sleep Fly.io VM
 
 on:
   schedule:
-    - cron: '0 15 * * *'
+    - cron: '0 7 * * *' # 7 AM UTC
   workflow_dispatch:
 
 jobs:
-  wake:
+  sleep:
     runs-on: ubuntu-latest
 
     steps:
@@ -15,9 +15,7 @@ jobs:
           curl -L https://fly.io/install.sh | sh
           echo "$HOME/.fly/bin" >> $GITHUB_PATH
 
-      - name: Scale up to 1 machine
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      - name: Scale down to 0 machines
         run: |
-          export FLY_API_TOKEN=$FLY_API_TOKEN
+          export FLY_API_TOKEN=${{ secrets.FLY_API_TOKEN }}
           fly scale count 1 --app backend-dry-butterfly-4692
