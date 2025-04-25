@@ -17,5 +17,5 @@ jobs:
 
       - name: Scale up to 1 machine
         run: |
-          export API_KEY=${{ secrets.API_KEY }}
+          export FLY_API_TOKEN=${{ secrets.FLY_API_TOKEN }}
           fly scale count 1 --app backend-dry-butterfly-4692
