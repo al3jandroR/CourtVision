@@ -2,7 +2,7 @@ name: Sleep Fly.io VM
 
 on:
   schedule:
-    - cron: '0 7 * * *' # 7 AM UTC
+    - cron: '0 7 * * *'
   workflow_dispatch:
 
 jobs:
