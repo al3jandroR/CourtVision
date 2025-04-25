@@ -1,4 +1,4 @@
-name: Sleep Fly.io VM
+name: Wake Fly.io VM
 
 on:
   schedule:
@@ -15,7 +15,7 @@ jobs:
           curl -L https://fly.io/install.sh | sh
           echo "$HOME/.fly/bin" >> $GITHUB_PATH
 
-      - name: Scale down to 0 machines
+      - name: Scale up to 1 machine
         run: |
-          export FLY_API_TOKEN=${{ secrets.FLY_API_TOKEN }}
+          export API_KEY=${{ secrets.API_KEY }}
           fly scale count 1 --app backend-dry-butterfly-4692

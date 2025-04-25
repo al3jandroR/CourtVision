@@ -2,7 +2,7 @@ name: Sleep Fly.io VM
 
 on:
   schedule:
-    - cron: '0 7 * * *'
+    - cron: '0 7 * * *' # 7 AM UTC
   workflow_dispatch:
 
 jobs:
@@ -17,5 +17,5 @@ jobs:
 
       - name: Scale down to 0 machines
         run: |
-          export FLY_API_TOKEN=${{ secrets.FLY_API_TOKEN }}
+          export API_KEY=${{ secrets.API_KEY }}
           fly scale count 0 --app backend-dry-butterfly-4692
