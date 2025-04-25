@@ -11,8 +11,8 @@ export default function GameCard({ game }) {
   return (
     <div className={`game-card ${resultClass}`}>
       <h3>{game.Matchup}</h3>
-      <p>🏆 Predicted Winner: <strong>{game.Predicted_Winner}</strong></p>
-      <p>📊 Home: {game.Home_Prob} | Away: {game.Away_Prob}</p>
+      <p>🏆 Predicted Winner: <strong>{game.Predicted_winner}</strong></p>
+      <p>📊 Home: {game.Home_prob} | Away: {game.Away_prob}</p>
       <p>🚑 Home Injuries: {Array.isArray(game.Home_injuries) ? game.Home_injuries.join(', ') : game.Home_injuries}</p>
       <p>🚑 Away Injuries: {Array.isArray(game.Away_injuries) ? game.Away_injuries.join(', ') : game.Away_injuries}</p>
 
