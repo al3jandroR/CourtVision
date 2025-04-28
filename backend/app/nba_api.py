@@ -97,7 +97,7 @@ def backfill_actual_scores(dry_run=True):
 
         if not cached or "predictions" not in cached:
             continue
-        if all("actual_winner" in g for g in cached["predictions"]):
+        if all("Actual_winner" in g for g in cached["predictions"]):
             skipped += len(cached["predictions"])
             continue
 
